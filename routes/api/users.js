@@ -7,7 +7,7 @@ const {check, validationResult} = require('express-validator/check')
 const config = require('config')
 
 const User = require('../../models/User')
-
+const { json } = require('express')
 
 router.get('/', (req, res) => {
     res.send("hello")
@@ -53,13 +53,19 @@ router.post('/register', [
             avatar
         })
 
+        
         const salt = await bcrypt.genSalt(10)
 
         user.password = await bcrypt.hash(password, salt)
 
+        
+
         await user.save()
 
         //return jsonwebtoken
+       // res.json(user)
+
+
 
         const payload = {
             user: {
